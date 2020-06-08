@@ -7,7 +7,7 @@ const router = express.Router();
 // =================== POST =======================
 
 router.post('/', (req, res) => {
-    knex("posts")
+    knex("accounts")
         .insert(req.body, "id")
         .then(([id]) => {
             res.status(200).json({ data: id })
@@ -23,9 +23,9 @@ router.post('/', (req, res) => {
 router.get('/', (req, res) => {
     knex
         .select('*')
-        .from('posts')
-        .then(posts => {
-            res.status(200).json({ data: posts })
+        .from('accounts')
+        .then(account => {
+            res.status(200).json({ data: account })
         }).catch(err => {
             console.log('GET / error', err);
             res.status(500).json({ message: err.message })
@@ -38,7 +38,7 @@ router.put('/:id', (req, res) => {
     const { id } = req.params;
     const changes = req.body;
 
-    knex('posts')
+    knex('accounts')
         .where({ id })
         .update(changes)
         .then(count => {
@@ -59,8 +59,9 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
 
-    knex('posts')
+    knex('accounts')
         .where({ id })
+        .del()
         .then(count => {
             if (count > 0) {
                 res.status(200).json({ message: "you deleted it!" })
