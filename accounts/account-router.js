@@ -32,6 +32,18 @@ router.get('/', (req, res) => {
         });
 });
 
+router.get('/:id', (req, res) => {
+    const { id } = req.params;
+  
+    knex('accounts').where({ id }).first()
+    .then(fruit => {
+      res.json(fruit);
+    }) 
+    .catch (err => {
+      res.status(500).json({ message: 'Failed to retrieve fruit' });
+    });
+  });
+
 // =================== PUT =======================
 
 router.put('/:id', (req, res) => {
